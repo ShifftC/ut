@@ -5,12 +5,9 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 //
-#if defined(__cpp_modules) && !defined(BOOST_UT_DISABLE_MODULE)
-export module boost.ut;
-export import std;
-#define BOOST_UT_EXPORT export
-#else
 #pragma once
+
+#if not defined(BOOST_UT_EXPORT)
 #define BOOST_UT_EXPORT
 #endif
 
@@ -72,6 +69,7 @@ export import std;
 #define __has_builtin(...) __has_##__VA_ARGS__
 #endif
 
+#if defined(BOOST_UT_DISABLE_MODULE) || defined(BOOST_UT_DISABLE_STD_MODULE)
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -90,10 +88,6 @@ export import std;
 #include <variant>
 #include <vector>
 #include <fstream>
-#if __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
-#include <sys/wait.h>
-#include <unistd.h>
-#endif
 #if defined(__cpp_exceptions)
 #include <exception>
 #endif
@@ -103,6 +97,16 @@ export import std;
 #endif
 #if __has_include(<source_location>)
 #include <source_location>
+#endif
+#endif
+
+#if __has_include(<unistd.h>) and __has_include(<sys/wait.h>)
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
+
+#if not defined(BOOST_UT_DISABLE_STD_MODULE)
+import std;
 #endif
 
 struct unique_name_for_auto_detect_prefix_and_suffix_lenght_0123456789_struct_ {
@@ -2760,8 +2764,8 @@ namespace terse {
 #pragma clang diagnostic ignored "-Wunused-comparison"
 #endif
 
-[[maybe_unused]] constexpr struct {
-} _t;
+struct ut_unnamed_t_struct {};
+[[maybe_unused]] constexpr ut_unnamed_t_struct _t;
 
 template <class T>
 constexpr auto operator%(const T& t, const decltype(_t)&) {

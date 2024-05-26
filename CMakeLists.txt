@@ -28,6 +28,7 @@ option(BOOST_UT_BUILD_EXAMPLES "Build the examples" ${PROJECT_IS_TOP_LEVEL})
 option(BOOST_UT_BUILD_TESTS "Build the tests" ${PROJECT_IS_TOP_LEVEL})
 option(BOOST_UT_USE_WARNINGS_AS_ERORS "Build the tests" ${PROJECT_IS_TOP_LEVEL})
 option(BOOST_UT_DISABLE_MODULE "Disable ut module" OFF)
+option(BOOST_UT_DISABLE_STD_MODULE "Disable usage of std module" OFF)
 option(BOOST_UT_ALLOW_CPM_USE "Do not reach out across network for CPM" ON)
 
 if(NOT CMAKE_SKIP_INSTALL_RULES)
@@ -81,6 +82,10 @@ endif()
 
 if(BOOST_UT_DISABLE_MODULE)
   target_compile_definitions(ut INTERFACE BOOST_UT_DISABLE_MODULE)
+endif()
+
+if(BOOST_UT_DISABLE_STD_MODULE)
+  target_compile_definitions(ut INTERFACE BOOST_UT_DISABLE_STD_MODULE)
 endif()
 
 if(NOT CMAKE_SKIP_INSTALL_RULES)
