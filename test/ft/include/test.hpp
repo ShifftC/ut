@@ -7,11 +7,17 @@
 //
 #pragma once
 
+#if defined(BOOST_UT_DISABLE_MODULE) || defined(BOOST_UT_DISABLE_STD_MODULE)
+#include <iostream>
+#endif
+
+#if defined(BOOST_UT_DISABLE_MODULE)
 #include <boost/ut.hpp>
+#else
+import boost.ut;
+#endif
 
 namespace test = boost::ut;
-
-#include <iostream>
 
 namespace ft {
 template <class TReporter>

@@ -5,8 +5,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 //
-#include "boost/ut.hpp"
-
+#if defined(BOOST_UT_DISABLE_MODULE) || defined(BOOST_UT_DISABLE_STD_MODULE)
 #include <algorithm>
 #include <any>
 #include <array>
@@ -21,6 +20,29 @@
 
 #if __has_include(<format>)
 #include <format>
+#endif
+#endif
+
+#if defined(BOOST_UT_DISABLE_MODULE)
+#include <boost/ut.hpp>
+#else
+#include <version>
+#if defined(__has_builtin) and defined(__GNUC__) and (__GNUC__ < 10) and \
+not defined(__clang__)
+#undef __has_builtin
+#endif
+#if not defined(__has_builtin)
+#if defined(__GNUC__) and (__GNUC__ >= 9)
+#define __has___builtin_FILE 1
+#define __has___builtin_LINE 1
+#endif
+#define __has_builtin(...) __has_##__VA_ARGS__
+#endif
+#if defined(__cpp_lib_format) or \
+(defined(_LIBCPP_VERSION) and _LIBCPP_VERSION >= 170000)
+#define BOOST_UT_HAS_FORMAT
+#endif
+import boost.ut;
 #endif
 
 namespace ut = boost::ut;

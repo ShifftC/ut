@@ -15,7 +15,16 @@
   #endif
 #endif
 
-#include "boost/ut.hpp"
+#if defined(BOOST_UT_DISABLE_MODULE) || defined(BOOST_UT_DISABLE_STD_MODULE)
+#include <chrono>
+#include <fstream>
+#endif
+
+#if defined(BOOST_UT_DISABLE_MODULE)
+#include <boost/ut.hpp>
+#else
+import boost.ut;
+#endif
 
 #ifndef __MINGW32__
   #if not defined(min) || not defined(max)
